@@ -52,6 +52,7 @@ Complexity sits in the middle.
 
 ## How It Works
 
+```text
 Your List
 ↓
 ArrayAnalyzer → size, sortedness, uniqueness, type
@@ -59,7 +60,7 @@ ArrayAnalyzer → size, sortedness, uniqueness, type
 ScoringEngine → scores every algorithm based on data + your preferences
 ↓
 Recommendation → best algorithm + why
-
+```
 
 ---
 
