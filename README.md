@@ -134,4 +134,4 @@ System.out.println(sorted);
 
 ---
 
-v2.0 — works. future versions will make it better. that's the deal.
+v1.5.0 — works. future versions will make it better. that's the deal.
