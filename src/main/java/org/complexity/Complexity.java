@@ -20,11 +20,15 @@ import java.util.List;
 import java.util.Map;
 
 public class Complexity<T extends Comparable<T>> {
+
+    private static final String VERSION = "1.5.0";
+
     private final List<T> arrayList;
     private final ArrayAnalyzer<T> arrayAnalyzer;
     private final ScoringEngine scoringEngine;
     private final UserPreference userPreference;
     private final Map<Algorithm, SortingAlgorithm<T>> algorithms;
+
     private Complexity(Builder<T> builder) {
         this.arrayList = builder.arrayList;
         this.arrayAnalyzer = builder.arrayAnalyzer;
@@ -142,5 +146,14 @@ public class Complexity<T extends Comparable<T>> {
         AlgorithmScore algorithmScore = scoringEngine.recommend(dataProfile, userPreference);
 
         return algorithmScore;
+    }
+
+    public String getVersion() {
+        return "Complexity" +
+                " | " +
+                "version: " +
+                VERSION +
+                " - " +
+                "Snapshot";
     }
 }
