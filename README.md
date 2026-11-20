@@ -1,7 +1,13 @@
-# Complexity
+<p align="center">
+  <img src="assets/complexity-logo.png" alt="Morph Logo" width="600" style="border-radius: 6px">
+</p>
 
+<h1 align="center">Complexity</h1>
+
+<p align="center">
 A sorting algorithm advisor. Give it a list, tell it what you care about,
 it tells you which sorting algorithm to use and why.
+</p>
 
 ---
 
