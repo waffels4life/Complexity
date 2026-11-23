@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/complexity-logo.png" alt="Morph Logo" width="600" style="border-radius: 6px">
+  <img src="assets/complexity-logo.png" alt="Complexity Logo" width="600" style="border-radius: 6px">
 </p>
 
 <h1 align="center">Complexity</h1>
