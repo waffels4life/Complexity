@@ -1,143 +1,210 @@
+
 <p align="center">
-  <img src="assets/complexity-logo.png" alt="Complexity Logo" width="600" style="border-radius: 6px">
+  <img src="assets/complexity-logo.png" alt="Complexity Logo" width="600">
 </p>
 
 <h1 align="center">Complexity</h1>
 
 <p align="center">
-A sorting algorithm advisor. Give it a list, tell it what you care about,
-it tells you which sorting algorithm to use and why.
+A sorting algorithm advisor.
+Give it a list, tell it what you care about, and it tells you which sorting algorithm to use — and why.
 </p>
-
----
-
-## Project Structure
-
-```angular2html
-src/
-├── main/java/org/complexity/
-│   │   Complexity.java             ← Entry point — Builder pattern, analyze() and sort()
-│   │   Main.java                   ← Usage examples
-│   │
-│   ├── analyzer/
-│   │       SortingAlgorithm.java   ← Interface for all sorting implementations
-│   │       QuickSortAlgorithm.java
-│   │       MergeSortAlgorithm.java
-│   │       TimSortAlgorithm.java
-│   │       HeapSortAlgorithm.java
-│   │       InsertionSortAlgorithm.java
-│   │       CountingSortAlgorithm.java
-│   │       RadixSortAlgorithm.java
-│   │
-│   ├── analyzer/
-│   │       ArrayAnalyzer.java      ← Analyzes size, sortedness, uniqueness and type
-│   │
-│   ├── model/
-│   │       Algorithm.java          ← Sorting algorithms enum with time/space complexity
-│   │       DataProfile.java        ← Snapshot of the analyzed array's characteristics
-│   │       UserPreference.java     ← What the user cares about (speed, memory, stability)
-│   │
-│   └── scoring/
-│           AlgorithmScore.java     ← Algorithm + its score + reasons
-│           ScoringEngine.java      ← Scores every algorithm and picks the best one
-│
-└── test/java/org/complexity/
-        ArrayAnalyzerTest.java      ← Unit tests for the analyzer
-```
 
 ---
 
 ## The Problem
 
-Picking a sorting algorithm is usually either blind ("just use QuickSort")
-or overkill (reading research papers to sort 8 integers).
+Choosing a sorting algorithm is usually either blind — "just use QuickSort" — or overkill, requiring research papers to sort a handful of integers.
 
 Complexity sits in the middle.
 
----
+It analyzes your data, considers your preferences, evaluates available algorithms, and recommends a suitable one with an explanation.
 
 ## How It Works
 
 ```text
-Your List
-↓
-ArrayAnalyzer → size, sortedness, uniqueness, type
-↓
-ScoringEngine → scores every algorithm based on data + your preferences
-↓
-Recommendation → best algorithm + why
+Your Input
+    |
+    v
+ArrayAnalyzer
+    |  size, sortedness, uniqueness, type
+    v
+ScoringEngine
+    |  evaluates algorithms using data + preferences
+    v
+Recommendation
+    |  algorithm + score + reasons
+    v
+Sorting (optional)
 ```
-
----
 
 ## What Gets Analyzed
 
-| Property | What it means |
+| Property | Description |
 |---|---|
-| Size | How many elements |
-| Sortedness | How close to sorted (0% = chaos, 100% = perfect) |
-| Uniqueness | How many duplicates |
-| Type | Integer? Enables Counting/Radix Sort |
+| Size | Number of elements |
+| Sortedness | How close the input is to being sorted |
+| Uniqueness | Number of distinct values |
+| Type | Input data type and applicable algorithms |
 
-## What You Tell It
+## What You Can Configure
 
-| Preference | Meaning |
+| Preference | Description |
 |---|---|
-| Speed over Memory | Fast execution vs low memory usage |
-| Stable | Does order of equal elements matter? |
-| Memory Constrained | Running on limited memory? |
+| Speed over Memory | Prioritize execution speed |
+| Stable | Prefer stable sorting algorithms |
+| Memory Constrained | Prefer algorithms with lower memory requirements |
 
 ---
 
-## Quick Start
+## Modules
+
+Complexity is organized as a Maven multi-module project.
+
+```text
+complexity/
+├── complexity-core/
+│   └── Sorting and algorithm analysis library
+│
+└── complexity-cli/
+    └── Command-line interface
+```
+
+### Complexity Core
+
+The core module provides the Java API for analyzing and sorting collections.
+
+### Complexity CLI
+
+The CLI provides commands for sorting values, analyzing input, and displaying usage information.
+
+---
+
+## Quick Start — Java API
 
 ```java
-Complexity<Integer> c = new Complexity.Builder<>(
+Complexity<Integer> complexity = new Complexity.Builder<>(
         List.of(3, 1, 4, 1, 5, 9, 2, 6))
         .speedOverMemory(true)
         .needsStable(false)
         .memoryConstrained(false)
         .build();
 
-AlgorithmScore result = c.analyze();
-System.out.println(result.getAlgorithm().getDisplayName());
-        System.out.println(result.getReason());
+AlgorithmScore result = complexity.analyze();
+
+System.out.println(result.getAlgorithm());
+System.out.println(result.getScore());
+System.out.println(result.getReason());
 ```
 
 ### Sort directly
+
 ```java
-List<Integer> sorted = c.sort(Algorithm.MERGESORT);
+List<Integer> sorted = complexity.sort(Algorithm.MERGESORT);
+
 System.out.println(sorted);
 ```
 
-### Let the system decide, then sort
+### Analyze, then sort
+
 ```java
-AlgorithmScore result = c.analyze();
-List<Integer> sorted = c.sort(result.getAlgorithm());
+AlgorithmScore result = complexity.analyze();
+
+List<Integer> sorted = complexity.sort(result.getAlgorithm());
+
 System.out.println(sorted);
 ```
 
 ---
+
+## CLI
+
+Complexity CLI currently supports three commands:
+
+| Command | Description |
+|---|---|
+| `sort` | Sort values using a selected algorithm |
+| `analyze` | Analyze values and recommend an algorithm |
+| `help` | Display command usage |
+
+### Usage
+
+```text
+cmp <command> [options]
+```
+
+### Options
+
+| Option | Description |
+|---|---|
+| `--values <v1,v2,...>` | Comma-separated integer values |
+| `--algorithm <name>` | Sorting algorithm to use |
+| `--stable` | Prefer stable algorithms |
+| `--speed-over-memory` | Prioritize speed over memory |
+| `--memory-constrained` | Prefer lower memory usage |
+
+### Examples
+
+Analyze a collection:
+
+```bash
+cmp analyze --values 8,3,5,1,9,2
+```
+
+Sort using a specific algorithm:
+
+```bash
+cmp sort --values 8,3,5,1 --algorithm INSERTION_SORT
+```
+
+Sort with preferences:
+
+```bash
+cmp sort --values 8,3,5,1 --algorithm MERGESORT --stable
+```
+
+Display help:
+
+```bash
+cmp help
+```
+
+The `cmp` command is the planned CLI executable name. Until the launcher is available, run the CLI through the Java application entry point.
+
+---
+
 ## Algorithms
 
-| Algorithm | Time | Space | Stable |
+| Algorithm | Time Complexity | Space Complexity | Stable |
 |---|---|---|---|
-| QuickSort | O(n log n) | O(log n) | No |
+| QuickSort | O(n log n) average | O(log n) average | No |
 | MergeSort | O(n log n) | O(n) | Yes |
 | TimSort | O(n log n) | O(n) | Yes |
 | HeapSort | O(n log n) | O(1) | No |
 | Insertion Sort | O(n²) | O(1) | Yes |
-| Counting Sort | O(n+k) | O(k) | Yes |
-| Radix Sort | O(nk) | O(n+k) | Yes |
+| Counting Sort | O(n + k) | O(k) | Yes |
+| Radix Sort | O(nk) | O(n + k) | Yes |
+
+*Complexities may vary depending on implementation and input characteristics.*
 
 ---
 
+## Build
+
+Build the project from the root directory:
+
+```bash
+mvn clean verify
+```
+
+This builds the modules and runs the test suite.
+
 ## Built With
 
-- Java 17+
+- Java
 - Maven
 - JUnit 5
 
 ---
 
-v1.5.0 — works. future versions will make it better. that's the deal.
+**v1.5.0** — works. future versions will make it better. that's the deal.
