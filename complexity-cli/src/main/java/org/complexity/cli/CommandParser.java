@@ -1,15 +1,15 @@
 package org.complexity.cli;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 public final class CommandParser {
+
     private final String[] args;
 
     public CommandParser(String[] args) {
         Objects.requireNonNull(args, "args cannot be null");
-        this.args = new String[args.length];
-
-        System.arraycopy(args, 0, this.args, 0, args.length);
+        this.args = args.clone();
     }
 
     public Command parse() {
@@ -19,26 +19,27 @@ public final class CommandParser {
                     "Command is required."
             );
 
-        if (this.args[0] == null)
-            throw new IllegalArgumentException(
-                    "Command cannot be null."
-            );
+        String commandName = Objects.requireNonNull(
+                args[0],
+                "Command cannot be null."
+        );
 
-        String command = this.args[0];
-        switch (command) {
-            case "analyze" -> {
-                return new Command(Commands.ANALYZE, this.args);
-            }
-            case "sort" -> {
-                return new Command(Commands.SORT, this.args);
-            }
-            case "help" -> {
-                return new Command(Commands.HELP, this.args);
-            }
+        Commands command = switch (commandName) {
+            case "analyze" -> Commands.ANALYZE;
+            case "sort" -> Commands.SORT;
+            case "help" -> Commands.HELP;
             default -> throw new IllegalArgumentException(
-                    "Unknown command: " + command + "\n" +
-                            " [TIP] Type 'cmp help' for command lines."
+                    "Unknown command: " + commandName + "\n" +
+                            "[TIP] Type 'cmp help' for command lines."
             );
-        }
+        };
+
+        String[] commandArgs = Arrays.copyOfRange(
+                args,
+                1,
+                args.length
+        );
+
+        return new Command(command, commandArgs);
     }
 }
