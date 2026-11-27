@@ -1,5 +1,6 @@
 package org.complexity.cli;
 
+import org.complexity.cli.exception.CliException;
 import org.complexity.model.Algorithm;
 import org.junit.jupiter.api.Test;
 
@@ -105,7 +106,7 @@ class ParsingOptionTest {
         ParsingOption options = new ParsingOption(command);
 
         assertThrows(
-                IllegalArgumentException.class,
+                CliException.class,
                 options::parse
         );
     }
@@ -120,7 +121,7 @@ class ParsingOptionTest {
         ParsingOption options = new ParsingOption(command);
 
         assertThrows(
-                IllegalArgumentException.class,
+                CliException.class,
                 options::parse
         );
     }
@@ -135,7 +136,7 @@ class ParsingOptionTest {
         ParsingOption options = new ParsingOption(command);
 
         assertThrows(
-                IllegalArgumentException.class,
+                CliException.class,
                 options::parse
         );
     }
@@ -150,7 +151,7 @@ class ParsingOptionTest {
         ParsingOption options = new ParsingOption(command);
 
         assertThrows(
-                IllegalArgumentException.class,
+                CliException.class,
                 options::parse
         );
     }
@@ -165,7 +166,7 @@ class ParsingOptionTest {
         ParsingOption options = new ParsingOption(command);
 
         assertThrows(
-                IllegalArgumentException.class,
+                CliException.class,
                 options::parse
         );
     }
@@ -180,7 +181,7 @@ class ParsingOptionTest {
         ParsingOption options = new ParsingOption(command);
 
         assertThrows(
-                IllegalArgumentException.class,
+                CliException.class,
                 options::parse
         );
     }
@@ -195,7 +196,7 @@ class ParsingOptionTest {
         ParsingOption options = new ParsingOption(command);
 
         assertThrows(
-                IllegalArgumentException.class,
+                CliException.class,
                 options::parse
         );
     }
@@ -210,7 +211,7 @@ class ParsingOptionTest {
         ParsingOption options = new ParsingOption(command);
 
         assertThrows(
-                IllegalArgumentException.class,
+                CliException.class,
                 options::parse
         );
     }
@@ -225,7 +226,7 @@ class ParsingOptionTest {
         ParsingOption options = new ParsingOption(command);
 
         assertThrows(
-                IllegalArgumentException.class,
+                CliException.class,
                 options::parse
         );
     }
@@ -265,8 +266,8 @@ class ParsingOptionTest {
 
         ParsingOption options = new ParsingOption(command);
 
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
+        CliException exception = assertThrows(
+                CliException.class,
                 options::parse
         );
 
@@ -285,8 +286,8 @@ class ParsingOptionTest {
 
         ParsingOption option = new ParsingOption(command);
 
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
+        CliException exception = assertThrows(
+                CliException.class,
                 option::parse
         );
 
@@ -305,8 +306,8 @@ class ParsingOptionTest {
 
         ParsingOption option = new ParsingOption(command);
 
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
+        CliException exception = assertThrows(
+                CliException.class,
                 option::parse
         );
 
@@ -325,8 +326,8 @@ class ParsingOptionTest {
 
         ParsingOption option = new ParsingOption(command);
 
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
+        CliException exception = assertThrows(
+                CliException.class,
                 option::parse
         );
 
@@ -345,8 +346,8 @@ class ParsingOptionTest {
 
         ParsingOption option = new ParsingOption(command);
 
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
+        CliException exception = assertThrows(
+                CliException.class,
                 option::parse
         );
 
@@ -365,8 +366,8 @@ class ParsingOptionTest {
 
         ParsingOption option = new ParsingOption(command);
 
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
+        CliException exception = assertThrows(
+                CliException.class,
                 option::parse
         );
 
@@ -385,8 +386,8 @@ class ParsingOptionTest {
 
         ParsingOption option = new ParsingOption(command);
 
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
+        CliException exception = assertThrows(
+                CliException.class,
                 option::parse
         );
 
@@ -405,8 +406,8 @@ class ParsingOptionTest {
 
         ParsingOption option = new ParsingOption(command);
 
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
+        CliException exception = assertThrows(
+                CliException.class,
                 option::parse
         );
 
@@ -426,7 +427,7 @@ class ParsingOptionTest {
         ParsingOption option = new ParsingOption(command);
 
         assertThrows(
-                IllegalArgumentException.class,
+                CliException.class,
                 option::parse
         );
     }
@@ -441,7 +442,7 @@ class ParsingOptionTest {
         ParsingOption option = new ParsingOption(command);
 
         assertThrows(
-                IllegalArgumentException.class,
+                CliException.class,
                 option::parse
         );
     }
