@@ -69,6 +69,8 @@ public final class ParsingOption {
                 );
             }
         }
+
+        validateRequiredOptions();
     }
 
     private List<Integer> parseValues(String value) {
@@ -107,6 +109,36 @@ public final class ParsingOption {
                     "unknown algorithm: " + value,
                     e
             );
+        }
+    }
+
+    private void validateRequiredOptions() {
+        switch (command.command()) {
+            case SORT -> {
+                if (values.isEmpty()) {
+                    throw new IllegalArgumentException(
+                            "Missing required option: --values"
+                    );
+                }
+
+                if (algorithm == null) {
+                    throw new IllegalArgumentException(
+                            "Missing required option: --algorithm"
+                    );
+                }
+            }
+
+            case ANALYZE -> {
+                if (values.isEmpty()) {
+                    throw new IllegalArgumentException(
+                            "Missing required option: --values"
+                    );
+                }
+            }
+
+            case HELP -> {
+                // No required options.
+            }
         }
     }
 
