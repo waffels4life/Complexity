@@ -1,7 +1,6 @@
 package org.complexity.cli;
 
 import org.complexity.Complexity;
-import org.complexity.model.Algorithm;
 
 import java.util.List;
 import java.util.Objects;
@@ -30,6 +29,7 @@ public final class CommandDispatcher {
                         .build();
 
                 List<Integer> sorted = complexity.sort(options.algorithm());
+                System.out.println(sorted);
             }
             case Commands.HELP -> printHelp();
             default -> throw new IllegalStateException(
