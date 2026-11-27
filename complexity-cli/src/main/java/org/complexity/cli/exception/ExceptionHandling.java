@@ -11,7 +11,7 @@ public final class ExceptionHandling {
         Objects.requireNonNull(printStream, "PrintStream cannot be null");
 
         if (throwable instanceof CliException cliException) {
-            printStream.println("Error: " + cliException.getMessage());
+            printStream.println("[ERROR] " + cliException.getMessage());
             return cliException.getExceptionType().getExitCode();
         }
 

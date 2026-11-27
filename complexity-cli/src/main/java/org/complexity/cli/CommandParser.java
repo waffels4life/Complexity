@@ -1,5 +1,8 @@
 package org.complexity.cli;
 
+import org.complexity.cli.exception.CliException;
+import org.complexity.cli.exception.ExceptionType;
+
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -15,8 +18,10 @@ public final class CommandParser {
     public Command parse() {
 
         if (this.args.length == 0)
-            throw new IllegalArgumentException(
-                    "Command is required."
+            throw new CliException(
+                    ExceptionType.COMMAND_EXCEPTION,
+                    "Command is required. \n" +
+                            "[TIP] Type 'cmp help' for command lines."
             );
 
         String commandName = Objects.requireNonNull(
@@ -28,7 +33,8 @@ public final class CommandParser {
             case "analyze" -> Commands.ANALYZE;
             case "sort" -> Commands.SORT;
             case "help" -> Commands.HELP;
-            default -> throw new IllegalArgumentException(
+            default -> throw new CliException(
+                    ExceptionType.COMMAND_EXCEPTION,
                     "Unknown command: " + commandName + "\n" +
                             "[TIP] Type 'cmp help' for command lines."
             );
