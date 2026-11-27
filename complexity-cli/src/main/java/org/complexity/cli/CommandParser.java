@@ -27,13 +27,13 @@ public final class CommandParser {
         String command = this.args[0];
         switch (command) {
             case "analyze" -> {
-                return new Command(Commands.ANALYZE);
+                return new Command(Commands.ANALYZE, this.args);
             }
             case "sort" -> {
-                return new Command(Commands.SORT);
+                return new Command(Commands.SORT, this.args);
             }
             case "help" -> {
-                return new Command(Commands.HELP);
+                return new Command(Commands.HELP, this.args);
             }
             default -> throw new IllegalArgumentException(
                     "Unknown command: " + command + "\n" +
