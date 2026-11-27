@@ -2,8 +2,8 @@ package org.complexity.cli;
 
 public class ComplexityCli {
     public static void main(String[] args) {
-        /*
-         * Complexity CLI tool :D
-         */
+        Command command = new CommandParser(args).parse();
+
+        new CommandDispatcher(command).dispatch();
     }
 }
