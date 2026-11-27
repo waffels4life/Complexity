@@ -255,4 +255,194 @@ class ParsingOptionTest {
 
         assertDoesNotThrow(options::parse);
     }
+
+    @Test
+    void shouldRejectSortWhenValuesAreMissing() {
+        Command command = new Command(
+                Commands.SORT,
+                new String[]{"--algorithm", "QUICKSORT"}
+        );
+
+        ParsingOption options = new ParsingOption(command);
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                options::parse
+        );
+
+        assertEquals(
+                "Missing required option: --values",
+                exception.getMessage()
+        );
+    }
+
+    @Test
+    void shouldRejectSortWhenAlgorithmIsMissing() {
+        Command command = new Command(
+                Commands.SORT,
+                new String[]{"--values", "2,3,5,3,2,3,1"}
+        );
+
+        ParsingOption option = new ParsingOption(command);
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                option::parse
+        );
+
+        assertEquals(
+                "Missing required option: --algorithm",
+                exception.getMessage()
+        );
+    }
+
+    @Test
+    void shouldRejectAnalyzeWhenValuesAreMissing() {
+        Command command = new Command(
+                Commands.ANALYZE,
+                new String[]{}
+        );
+
+        ParsingOption option = new ParsingOption(command);
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                option::parse
+        );
+
+        assertEquals(
+                "Missing required option: --values",
+                exception.getMessage()
+        );
+    }
+
+    @Test
+    void shouldRejectValuesOptionWithoutValue() {
+        Command command = new Command(
+                Commands.SORT,
+                new String[]{"--values"}
+        );
+
+        ParsingOption option = new ParsingOption(command);
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                option::parse
+        );
+
+        assertEquals(
+                "Missing value for --values",
+                exception.getMessage()
+        );
+    }
+
+    @Test
+    void shouldRejectEmptyValues() {
+        Command command = new Command(
+                Commands.ANALYZE,
+                new String[]{"--values", ""}
+        );
+
+        ParsingOption option = new ParsingOption(command);
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                option::parse
+        );
+
+        assertEquals(
+                "Values cannot be empty.",
+                exception.getMessage()
+        );
+    }
+
+    @Test
+    void shouldRejectNonNumericValue() {
+        Command command = new Command(
+                Commands.ANALYZE,
+                new String[]{"--values", "1,abc,3"}
+        );
+
+        ParsingOption option = new ParsingOption(command);
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                option::parse
+        );
+
+        assertEquals(
+                "Invalid integer value: abc",
+                exception.getMessage()
+        );
+    }
+
+    @Test
+    void shouldRejectIntegerOutsideIntRange() {
+        Command command = new Command(
+                Commands.ANALYZE,
+                new String[]{"--values", "999999999999"}
+        );
+
+        ParsingOption option = new ParsingOption(command);
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                option::parse
+        );
+
+        assertEquals(
+                "Invalid integer value: 999999999999",
+                exception.getMessage()
+        );
+    }
+
+    @Test
+    void shouldRejectAlgorithmOptionWithoutValue() {
+        Command command = new Command(
+                Commands.SORT,
+                new String[]{"--values", "1,2,3", "--algorithm"}
+        );
+
+        ParsingOption option = new ParsingOption(command);
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                option::parse
+        );
+
+        assertEquals(
+                "Missing value for --algorithm",
+                exception.getMessage()
+        );
+    }
+
+    @Test
+    void shouldRejectTrailingCommaInValues() {
+        Command command = new Command(
+                Commands.ANALYZE,
+                new String[]{"--values", "1,2,3,"}
+        );
+
+        ParsingOption option = new ParsingOption(command);
+
+        assertThrows(
+                IllegalArgumentException.class,
+                option::parse
+        );
+    }
+
+    @Test
+    void shouldRejectEmptyElementBetweenValues() {
+        Command command = new Command(
+                Commands.ANALYZE,
+                new String[]{"--values", "1,,3"}
+        );
+
+        ParsingOption option = new ParsingOption(command);
+
+        assertThrows(
+                IllegalArgumentException.class,
+                option::parse
+        );
+    }
 }
