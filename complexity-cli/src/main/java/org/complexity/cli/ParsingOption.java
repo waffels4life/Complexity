@@ -1,15 +1,15 @@
 package org.complexity.cli;
 
-import org.complexity.model.Algorithm;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public final class ParsingOption {
+
     private final Command command;
 
-    private List<Integer> values;
-    private Algorithm algorithm;
+    private List<Integer> values = List.of();
+
     private boolean stable;
     private boolean speedOverMemory;
     private boolean memoryConstrained;
@@ -24,19 +24,67 @@ public final class ParsingOption {
     public void parse() {
         String[] args = command.args();
 
-        for (String arg : args) {
-            Objects.requireNonNull(arg, "option cannot be null");
+        for (int i = 0; i < args.length; i++) {
+            String arg = Objects.requireNonNull(
+                    args[i],
+                    "option cannot be null"
+            );
 
             switch (arg) {
+                case "--values" -> {
+                    if (i + 1 >= args.length) {
+                        throw new IllegalArgumentException(
+                                "Missing value for --values"
+                        );
+                    }
+
+                    values = parseValues(args[++i]);
+                }
+
                 case "--stable" -> stable = true;
-                case "--speed-over-memory" -> speedOverMemory = true;
-                case "--memory-constrained" -> memoryConstrained = true;
+
+                case "--speed-over-memory" ->
+                        speedOverMemory = true;
+
+                case "--memory-constrained" ->
+                        memoryConstrained = true;
 
                 default -> throw new IllegalArgumentException(
                         "Unknown option: " + arg
                 );
             }
         }
+    }
+
+    private List<Integer> parseValues(String value) {
+        if (value == null || value.isBlank()) {
+            throw new IllegalArgumentException(
+                    "Values cannot be empty."
+            );
+        }
+
+        String[] elements = value.split(",", -1);
+
+        List<Integer> parsedValues = new ArrayList<>();
+
+        for (String element : elements) {
+            try {
+                parsedValues.add(Integer.parseInt(element.trim())
+                );
+            }
+            catch (NumberFormatException e) {
+                throw new IllegalArgumentException(
+                        "Invalid integer value: " + element,
+                        e
+                );
+            }
+        }
+
+        return List.copyOf(parsedValues);
+    }
+
+    public List<Integer> values() {
+        return values;
     }
 
     public boolean isStable() {

@@ -23,7 +23,7 @@ public final class CommandDispatcher {
                 options.parse();
 
                 Complexity<Integer> complexity = new Complexity.Builder<>(
-                        List.of(3, 1, 4, 1, 5, 9, 2, 6))
+                        options.values())
                         .speedOverMemory(options.isSpeedOverMemory())
                         .needsStable(options.isStable())
                         .memoryConstrained(options.isMemoryConstrained())
