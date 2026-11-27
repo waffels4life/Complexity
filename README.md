@@ -1,4 +1,3 @@
-
 <p align="center">
   <img src="assets/complexity-logo.png" alt="Complexity Logo" width="600">
 </p>
@@ -6,7 +5,7 @@
 <h1 align="center">Complexity</h1>
 
 <p align="center">
-A sorting algorithm advisor.
+A sorting algorithm advisor.<br>
 Give it a list, tell it what you care about, and it tells you which sorting algorithm to use — and why.
 </p>
 
@@ -24,17 +23,17 @@ It analyzes your data, considers your preferences, evaluates available algorithm
 
 ```text
 Your Input
-    |
-    v
+   |
+   v
 ArrayAnalyzer
-    |  size, sortedness, uniqueness, type
-    v
+   |  size, sortedness, uniqueness, type
+   v
 ScoringEngine
-    |  evaluates algorithms using data + preferences
-    v
+   |  evaluates algorithms using data + preferences
+   v
 Recommendation
-    |  algorithm + score + reasons
-    v
+   |  algorithm + score + reasons
+   v
 Sorting (optional)
 ```
 
@@ -66,8 +65,13 @@ complexity/
 ├── complexity-core/
 │   └── Sorting and algorithm analysis library
 │
-└── complexity-cli/
-    └── Command-line interface
+├── complexity-cli/
+│   └── Command-line interface
+│
+└── dist/
+    ├── cmp.bat
+    ├── complexity-cli.jar
+    └── README.md
 ```
 
 ### Complexity Core
@@ -117,9 +121,28 @@ System.out.println(sorted);
 
 ---
 
+## Installation
+
+Complexity CLI requires Java 21 or later.
+
+1. Download the Complexity distribution ZIP.
+2. Extract the ZIP archive.
+3. Open a terminal in the extracted directory.
+4. Run the CLI using the Windows launcher.
+
+Display available commands:
+
+```powershell
+.\cmp.bat help
+```
+
+No Maven installation is required to use the packaged CLI.
+
+---
+
 ## CLI
 
-Complexity CLI currently supports three commands:
+Complexity CLI supports three commands:
 
 | Command | Description |
 |---|---|
@@ -132,6 +155,8 @@ Complexity CLI currently supports three commands:
 ```text
 cmp <command> [options]
 ```
+
+On Windows, use `cmp.bat` to run the CLI.
 
 ### Options
 
@@ -147,29 +172,33 @@ cmp <command> [options]
 
 Analyze a collection:
 
-```bash
-cmp analyze --values 8,3,5,1,9,2
+```powershell
+.\cmp.bat analyze --values 8,3,5,1,9,2
 ```
 
 Sort using a specific algorithm:
 
-```bash
-cmp sort --values 8,3,5,1 --algorithm INSERTION_SORT
+```powershell
+.\cmp.bat sort --values 8,3,5,1 --algorithm INSERTION_SORT
 ```
 
 Sort with preferences:
 
-```bash
-cmp sort --values 8,3,5,1 --algorithm MERGESORT --stable
+```powershell
+.\cmp.bat sort --values 8,3,5,1 --algorithm MERGESORT --stable
 ```
 
 Display help:
 
-```bash
-cmp help
+```powershell
+.\cmp.bat help
 ```
 
-The `cmp` command is the planned CLI executable name. Until the launcher is available, run the CLI through the Java application entry point.
+The CLI can also be launched directly through its executable JAR:
+
+```bash
+java -jar complexity-cli.jar help
+```
 
 ---
 
@@ -198,6 +227,14 @@ mvn clean verify
 ```
 
 This builds the modules and runs the test suite.
+
+To create the executable CLI JAR:
+
+```bash
+mvn clean package
+```
+
+The packaged JAR is generated in the CLI module's `target` directory.
 
 ## Built With
 
