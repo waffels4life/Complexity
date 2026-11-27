@@ -84,15 +84,15 @@ public class Complexity<T extends Comparable<T>> {
         public Builder(List<T> arrayList) {
             this.arrayList = arrayList;
         }
-        public Builder speedOverMemory(boolean speedOverMemory) {
+        public Builder<T> speedOverMemory(boolean speedOverMemory) {
             this.speedOverMemory = speedOverMemory;
             return this;
         }
-        public Builder needsStable(boolean needsStable) {
+        public Builder<T> needsStable(boolean needsStable) {
             this.needsStable = needsStable;
             return this;
         }
-        public Builder memoryConstrained(boolean memoryConstrained) {
+        public Builder<T> memoryConstrained(boolean memoryConstrained) {
             this.memoryConstrained = memoryConstrained;
             return this;
         }
@@ -101,7 +101,7 @@ public class Complexity<T extends Comparable<T>> {
         ScoringEngine scoringEngine;
         UserPreference userPreference;
 
-        public Complexity build() {
+        public Complexity<T> build() {
 
             validation();
 
@@ -113,7 +113,7 @@ public class Complexity<T extends Comparable<T>> {
                     memoryConstrained
             );
 
-            return new Complexity(this);
+            return new Complexity<>(this);
         }
         /**
          * <h5>Array rejection causes</h5>
