@@ -56,6 +56,29 @@ public final class CommandDispatcher {
     }
 
     private void printHelp() {
-        System.out.println("Help tools");
+        System.out.println(
+                """
+                Complexity CLI
+                Analyze and sort integer collections.
+                
+                Usage:
+                  cmp <command> [options]
+                
+                Commands:
+                  sort       Sort values using a selected algorithm
+                  analyze    Analyze values and recommend an algorithm
+                  help       Show this help message
+                
+                Options:
+                  --values <v1,v2,...>       Comma-separated integers
+                  --algorithm <name>         Sorting algorithm
+                  --stable                   Prefer stable algorithms
+                  --speed-over-memory        Prioritize speed over memory
+                  --memory-constrained       Limit memory usage
+                
+                Examples:
+                  cmp sort --values 8,3,5,1 --algorithm INSERTION_SORT
+                  cmp analyze --values 8,3,5,1
+                """);
     }
 }
