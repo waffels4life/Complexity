@@ -1,5 +1,7 @@
 package org.complexity.cli;
 
+import org.complexity.model.Algorithm;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -9,6 +11,8 @@ public final class ParsingOption {
     private final Command command;
 
     private List<Integer> values = List.of();
+
+    private Algorithm algorithm;
 
     private boolean stable;
     private boolean speedOverMemory;
@@ -39,6 +43,16 @@ public final class ParsingOption {
                     }
 
                     values = parseValues(args[++i]);
+                }
+
+                case "--algorithm" -> {
+                    if (i + 1 >= args.length) {
+                        throw new IllegalArgumentException(
+                                "Missing value for --algorithm"
+                        );
+                    }
+
+                    algorithm = parseAlgorithm(args[++i]);
                 }
 
                 case "--stable" -> stable = true;
@@ -83,8 +97,24 @@ public final class ParsingOption {
         return List.copyOf(parsedValues);
     }
 
+    private Algorithm parseAlgorithm(String value) {
+        try {
+            return Algorithm.valueOf(value.toUpperCase());
+        }
+        catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(
+                    "unknown algorithm: " + value,
+                    e
+            );
+        }
+    }
+
     public List<Integer> values() {
         return values;
+    }
+
+    public Algorithm algorithm() {
+        return algorithm;
     }
 
     public boolean isStable() {

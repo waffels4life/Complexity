@@ -29,7 +29,7 @@ public final class CommandDispatcher {
                         .memoryConstrained(options.isMemoryConstrained())
                         .build();
 
-                List<Integer> sorted = complexity.sort(Algorithm.QUICKSORT);
+                List<Integer> sorted = complexity.sort(options.algorithm());
             }
             case Commands.HELP -> printHelp();
             default -> throw new IllegalStateException(
