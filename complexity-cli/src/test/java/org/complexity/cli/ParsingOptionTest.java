@@ -13,7 +13,10 @@ class ParsingOptionTest {
     void shouldParseValues() {
         Command command = new Command(
                 Commands.SORT,
-                new String[]{"--values", "8,3,5,1"}
+                new String[]{
+                        "--values", "8,3,5,1",
+                        "--algorithm", "QUICKSORT"
+                }
         );
 
         ParsingOption options = new ParsingOption(command);
@@ -29,7 +32,10 @@ class ParsingOptionTest {
     void shouldParseAlgorithm() {
         Command command = new Command(
                 Commands.SORT,
-                new String[]{"--algorithm", "QUICKSORT"}
+                new String[]{
+                        "--values", "8,3,5,1",
+                        "--algorithm", "QUICKSORT"
+                }
         );
 
         ParsingOption options = new ParsingOption(command);
@@ -48,7 +54,9 @@ class ParsingOptionTest {
                 new String[]{
                         "--stable",
                         "--speed-over-memory",
-                        "--memory-constrained"
+                        "--memory-constrained",
+                        "--values", "8,3,5,1",
+                        "--algorithm", "QUICKSORT"
                 }
         );
 
@@ -175,5 +183,76 @@ class ParsingOptionTest {
                 IllegalArgumentException.class,
                 options::parse
         );
+    }
+
+    @Test
+    void shouldRejectSortWithoutValues() {
+        Command command = new Command(
+                Commands.SORT,
+                new String[]{"--algorithm", "QUICKSORT"}
+        );
+
+        ParsingOption options = new ParsingOption(command);
+
+        assertThrows(
+                IllegalArgumentException.class,
+                options::parse
+        );
+    }
+
+    @Test
+    void shouldRejectSortWithoutAlgorithm() {
+        Command command = new Command(
+                Commands.SORT,
+                new String[]{"--values", "8,3,5,1"}
+        );
+
+        ParsingOption options = new ParsingOption(command);
+
+        assertThrows(
+                IllegalArgumentException.class,
+                options::parse
+        );
+    }
+
+    @Test
+    void shouldRejectAnalyzeWithoutValues() {
+        Command command = new Command(
+                Commands.ANALYZE,
+                new String[]{"--stable"}
+        );
+
+        ParsingOption options = new ParsingOption(command);
+
+        assertThrows(
+                IllegalArgumentException.class,
+                options::parse
+        );
+    }
+
+    @Test
+    void shouldAllowAnalyzeWithoutAlgorithm() {
+        Command command = new Command(
+                Commands.ANALYZE,
+                new String[]{"--values", "8,3,5,1"}
+        );
+
+        ParsingOption options = new ParsingOption(command);
+
+        assertDoesNotThrow(options::parse);
+
+        assertNull(options.algorithm());
+    }
+
+    @Test
+    void shouldAllowHelpWithoutOptions() {
+        Command command = new Command(
+                Commands.HELP,
+                new String[]{}
+        );
+
+        ParsingOption options = new ParsingOption(command);
+
+        assertDoesNotThrow(options::parse);
     }
 }
