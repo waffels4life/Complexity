@@ -1,5 +1,7 @@
 package org.complexity.cli;
 
+import org.complexity.cli.exception.CliException;
+import org.complexity.cli.exception.ExceptionType;
 import org.complexity.model.Algorithm;
 
 import java.util.ArrayList;
@@ -38,7 +40,8 @@ public final class ParsingOption {
             switch (arg) {
                 case "--values" -> {
                     if (i + 1 >= args.length) {
-                        throw new IllegalArgumentException(
+                        throw new CliException(
+                                ExceptionType.INPUT_EXCEPTION,
                                 "Missing value for --values"
                         );
                     }
@@ -48,7 +51,8 @@ public final class ParsingOption {
 
                 case "--algorithm" -> {
                     if (i + 1 >= args.length) {
-                        throw new IllegalArgumentException(
+                        throw new CliException(
+                                ExceptionType.INPUT_EXCEPTION,
                                 "Missing value for --algorithm"
                         );
                     }
@@ -64,7 +68,8 @@ public final class ParsingOption {
                 case "--memory-constrained" ->
                         memoryConstrained = true;
 
-                default -> throw new IllegalArgumentException(
+                default -> throw new CliException(
+                        ExceptionType.INPUT_EXCEPTION,
                         "Unknown option: " + arg
                 );
             }
@@ -75,7 +80,8 @@ public final class ParsingOption {
 
     private List<Integer> parseValues(String value) {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException(
+            throw new CliException(
+                    ExceptionType.INPUT_EXCEPTION,
                     "Values cannot be empty."
             );
         }
@@ -90,7 +96,8 @@ public final class ParsingOption {
                 );
             }
             catch (NumberFormatException e) {
-                throw new IllegalArgumentException(
+                throw new CliException(
+                        ExceptionType.INPUT_EXCEPTION,
                         "Invalid integer value: " + element,
                         e
                 );
@@ -105,7 +112,8 @@ public final class ParsingOption {
             return Algorithm.valueOf(value.toUpperCase(Locale.ROOT));
         }
         catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(
+            throw new CliException(
+                    ExceptionType.INPUT_EXCEPTION,
                     "unknown algorithm: " + value,
                     e
             );
@@ -115,25 +123,25 @@ public final class ParsingOption {
     private void validateRequiredOptions() {
         switch (command.command()) {
             case SORT -> {
-                if (values.isEmpty()) {
-                    throw new IllegalArgumentException(
+                if (values.isEmpty())
+                    throw new CliException(
+                            ExceptionType.INPUT_EXCEPTION,
                             "Missing required option: --values"
                     );
-                }
 
-                if (algorithm == null) {
-                    throw new IllegalArgumentException(
+                if (algorithm == null)
+                    throw new CliException(
+                            ExceptionType.INPUT_EXCEPTION,
                             "Missing required option: --algorithm"
                     );
-                }
             }
 
             case ANALYZE -> {
-                if (values.isEmpty()) {
-                    throw new IllegalArgumentException(
+                if (values.isEmpty())
+                    throw new CliException(
+                            ExceptionType.INPUT_EXCEPTION,
                             "Missing required option: --values"
                     );
-                }
             }
 
             case HELP -> {

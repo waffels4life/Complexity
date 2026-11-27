@@ -1,5 +1,6 @@
 package org.complexity.cli;
 
+import org.complexity.cli.exception.CliException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -93,7 +94,7 @@ class CommandDispatcherTest {
         CommandDispatcher dispatcher = new CommandDispatcher(command);
 
         assertThrows(
-                IllegalArgumentException.class,
+                CliException.class,
                 dispatcher::dispatch
         );
     }

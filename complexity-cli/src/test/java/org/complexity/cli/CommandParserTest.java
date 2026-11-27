@@ -1,5 +1,6 @@
 package org.complexity.cli;
 
+import org.complexity.cli.exception.CliException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -62,7 +63,7 @@ class CommandParserTest {
         CommandParser parser = new CommandParser(args);
 
         assertThrows(
-                IllegalArgumentException.class,
+                CliException.class,
                 parser::parse
         );
     }
@@ -74,7 +75,7 @@ class CommandParserTest {
         CommandParser parser = new CommandParser(args);
 
         assertThrows(
-                IllegalArgumentException.class,
+                CliException.class,
                 parser::parse
         );
     }
